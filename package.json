@@ -1,0 +1,26 @@
+{
+  "name": "ts-mock",
+  "version": "0.0.1",
+  "description": "TypeScript mocking library",
+  "keywords": [
+    "typescript",
+    "ts",
+    "mock"
+  ],
+  "author": "Vasya Aksyonov <outring@gmail.com>",
+  "license": "MIT",
+  "main": "src/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha --opts ./tests/mocha.opts ./tests"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.4.5",
+    "ts-node": "^0.5.5",
+    "typescript": "^1.8.7",
+    "typings": "^0.6.10"
+  }
+}
