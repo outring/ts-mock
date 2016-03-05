@@ -11,7 +11,7 @@ export interface IMethodConfiguration<TResult> {
 }
 
 export interface IMethodConfigurator<TResult> {
-	callback(callback:(...args:any[]) => TResult):IMethodConfigurator<TResult>;
+	callback(callback:(...args:any[]) => void):IMethodConfigurator<TResult>;
 	returns(result:TResult):IMethodConfigurator<TResult>;
 	throws(error:any):IMethodConfigurator<TResult>;
 	onCall(number:number):IMethodConfigurator<TResult>;
@@ -21,7 +21,7 @@ export class MethodConfiguration<TResult> implements IMethodConfigurator<TResult
 
 	private _name:string;
 	private _args:any[];
-	
+
 	private _callbacks:Function[] = [];
 	private _call:(...args:any[]) => TResult;
 	private _callNumber:number = nonConfiguredCallNumber;
@@ -56,7 +56,7 @@ export class MethodConfiguration<TResult> implements IMethodConfigurator<TResult
 		return this._call ? this._call.apply(null, args) : undefined;
 	}
 
-	public callback(callback:(...args:any[]) => TResult):IMethodConfigurator<TResult> {
+	public callback(callback:(...args:any[]) => void):IMethodConfigurator<TResult> {
 		this._callbacks.push(callback);
 		return this;
 	}

@@ -15,5 +15,5 @@ export class MethodCall {
 	public getArgs():any[] {
 		return this._args;
 	}
-	
+
 }
