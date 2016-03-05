@@ -43,6 +43,10 @@ export class ArgumentConstraint<T> extends ArgumentConstraintBase<T> {
 		this._type = type;
 	}
 
+	public isStrict():boolean {
+		return super.isStrict() || this._type !== null;
+	}
+
 	public verify(argument:T):boolean {
 		let isVerified = true;
 
@@ -73,6 +77,10 @@ export class ArrayArgumentConstraint<T> extends ArgumentConstraintBase<T[]> {
 		super(constraint);
 
 		this._elementConstraint = elementConstraint;
+	}
+
+	public isStrict():boolean {
+		return super.isStrict() || (this._elementConstraint !== null && this._elementConstraint.isStrict());
 	}
 
 	public verify(argument:T[]):boolean {

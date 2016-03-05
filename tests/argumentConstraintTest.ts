@@ -7,7 +7,7 @@ class TestType {
 
 describe("ArgumentConstraint", () => {
 
-	it("must be not strict if has no generic constraint", () => {
+	it("must be loose if has no generic constraint", () => {
 		const constraint = new ArgumentConstraint(null);
 
 		expect(constraint.isStrict()).to.be(false);
@@ -15,6 +15,12 @@ describe("ArgumentConstraint", () => {
 
 	it("must be strict if has generic constraint", () => {
 		const constraint = new ArgumentConstraint(null, () => true);
+
+		expect(constraint.isStrict()).to.be(true);
+	});
+
+	it("must be strict if has type constraint", () => {
+		const constraint = new ArgumentConstraint(String);
 
 		expect(constraint.isStrict()).to.be(true);
 	});

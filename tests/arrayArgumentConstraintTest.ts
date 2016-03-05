@@ -3,7 +3,7 @@ import {ArrayArgumentConstraint, ArgumentConstraint} from "../src/argumentConstr
 
 describe("ArrayArgumentConstraint", () => {
 
-	it("must be not strict if has no generic constraint", () => {
+	it("must be loose if has no generic constraint", () => {
 		const constraint = new ArrayArgumentConstraint();
 
 		expect(constraint.isStrict()).to.be(false);
@@ -11,6 +11,18 @@ describe("ArrayArgumentConstraint", () => {
 
 	it("must be strict if has generic constraint", () => {
 		const constraint = new ArrayArgumentConstraint(null, () => true);
+
+		expect(constraint.isStrict()).to.be(true);
+	});
+
+	it("must be loose if element constraint is loose", () => {
+		const constraint = new ArrayArgumentConstraint(new ArgumentConstraint(null));
+
+		expect(constraint.isStrict()).to.be(false);
+	});
+
+	it("must be strict if element constraint is strict", () => {
+		const constraint = new ArrayArgumentConstraint(new ArgumentConstraint(String));
 
 		expect(constraint.isStrict()).to.be(true);
 	});
