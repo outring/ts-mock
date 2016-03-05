@@ -1,11 +1,19 @@
 export class MethodCall {
 
-    constructor(number:number, args:any[]) {
-        this.number = number;
-        this.args = args;
-    }
+	private _number:number;
+	private _args:any[];
 
-    public number:number;
-    public args:any[];
+	constructor(number:number, args:any[]) {
+		this._number = number;
+		this._args = args;
+	}
 
+	public getNumber():number {
+		return this._number;
+	}
+
+	public getArgs():any[] {
+		return this._args;
+	}
+	
 }

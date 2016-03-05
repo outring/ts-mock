@@ -4,20 +4,20 @@ import {ArgumentConstraint} from "../src/argumentConstraint";
 
 describe("MethodConfiguration", () => {
 
-	describe("specifity", () => {
+	describe("getSpecificity", () => {
 
 		it("must be zero if no args", () => {
 			const configuration = new MethodConfiguration<void>("test", []);
 
-			expect(configuration.specificity).to.be(0);
+			expect(configuration.getSpecificity()).to.be(0);
 		});
 
 		it("must be equal to number of args", () => {
 			const configuration1 = new MethodConfiguration<void>("test", [1, 2, 3, 4]);
 			const configuration2 = new MethodConfiguration<void>("test", [1, 2]);
 
-			expect(configuration1.specificity).to.be(4);
-			expect(configuration2.specificity).to.be(2);
+			expect(configuration1.getSpecificity()).to.be(4);
+			expect(configuration2.getSpecificity()).to.be(2);
 		});
 
 		it("must be equal to number of non-constraint args", () => {
@@ -26,8 +26,8 @@ describe("MethodConfiguration", () => {
 			const configuration1 = new MethodConfiguration<void>("test", args1);
 			const configuration2 = new MethodConfiguration<void>("test", args2);
 
-			expect(configuration1.specificity).to.be(4);
-			expect(configuration2.specificity).to.be(2);
+			expect(configuration1.getSpecificity()).to.be(4);
+			expect(configuration2.getSpecificity()).to.be(2);
 		});
 
 		it("must be equal to number of non-constraint or strict constraint args", () => {
@@ -36,8 +36,8 @@ describe("MethodConfiguration", () => {
 			const configuration1 = new MethodConfiguration<void>("test", args1);
 			const configuration2 = new MethodConfiguration<void>("test", args2);
 
-			expect(configuration1.specificity).to.be(7);
-			expect(configuration2.specificity).to.be(5);
+			expect(configuration1.getSpecificity()).to.be(7);
+			expect(configuration2.getSpecificity()).to.be(5);
 		});
 
 	});
@@ -210,7 +210,7 @@ describe("MethodConfiguration", () => {
 		it("default call number must be default", () => {
 			const configuration = new MethodConfiguration<number[]>("test1", []);
 
-			expect(configuration.callNumber).to.be(-1);
+			expect(configuration.getCallNumber()).to.be(-1);
 		});
 
 		it("must set call number", () => {
@@ -218,7 +218,7 @@ describe("MethodConfiguration", () => {
 
 			configuration.onCall(1);
 
-			expect(configuration.callNumber).to.be(1);
+			expect(configuration.getCallNumber()).to.be(1);
 		});
 
 		it("must set call number only once", () => {
