@@ -11,9 +11,42 @@ export interface IFunctionConfiguration<TResult> {
 }
 
 export interface IFunctionConfigurator<TResult> {
+	callback<T1>(callback:(arg1:T1) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2>(callback:(arg1:T1, arg2:T2) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3>(callback:(arg1:T1, arg2:T2, arg3:T3) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5, T6>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5, T6, T7>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5, T6, T7, T8>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9) => void):IFunctionConfigurator<TResult>;
+	callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9, arg10:T10) => void):IFunctionConfigurator<TResult>;
 	callback(callback:(...args:any[]) => void):IFunctionConfigurator<TResult>;
-	returns(result:TResult):IFunctionConfigurator<TResult>;
-	throws(error:any):IFunctionConfigurator<TResult>;
+
+	returns<T1>(callback:(arg1:T1) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2>(callback:(arg1:T1, arg2:T2) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3>(callback:(arg1:T1, arg2:T2, arg3:T3) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5, T6>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5, T6, T7>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5, T6, T7, T8>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5, T6, T7, T8, T9>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9) => TResult):IFunctionConfigurator<TResult>;
+	returns<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9, arg10:T10) => TResult):IFunctionConfigurator<TResult>;
+	returns(callback:(...args:any[]) => TResult):IFunctionConfigurator<TResult>;
+
+	throws<T1>(callback:(arg1:T1) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2>(callback:(arg1:T1, arg2:T2) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3>(callback:(arg1:T1, arg2:T2, arg3:T3) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5, T6>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5, T6, T7>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5, T6, T7, T8>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5, T6, T7, T8, T9>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9) => any):IFunctionConfigurator<TResult>;
+	throws<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(callback:(arg1:T1, arg2:T2, arg3:T3, arg4:T4, arg5:T5, arg6:T6, arg7:T7, arg8:T8, arg9:T9, arg10:T10) => any):IFunctionConfigurator<TResult>;
+	throws(callback:() => any):IFunctionConfigurator<TResult>;
+
 	onCall(number:number):IFunctionConfigurator<TResult>;
 }
 
@@ -61,15 +94,15 @@ export class FunctionConfiguration<TResult> implements IFunctionConfigurator<TRe
 		return this;
 	}
 
-	public returns(result:TResult|((...args:any[]) => TResult)):IFunctionConfigurator<TResult> {
+	public returns(callback:(...args:any[]) => TResult):IFunctionConfigurator<TResult> {
 		this._ensureCallNotConfigured();
-		this._call = typeof result === "function" ? <(...args:any[]) => TResult>result : () => <TResult>result;
+		this._call = <(...args:any[]) => TResult>callback;
 		return this;
 	}
 
-	public throws(error:any):IFunctionConfigurator<TResult> {
+	public throws(callback:(...args:any[]) => any):IFunctionConfigurator<TResult> {
 		this._ensureCallNotConfigured();
-		this._call = <() => TResult>(() => { throw error; });
+		this._call = <() => TResult>((...args:any[]) => { throw callback.apply(null, args); });
 		return this;
 	}
 

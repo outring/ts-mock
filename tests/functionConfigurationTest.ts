@@ -3,7 +3,7 @@ import {FunctionConfiguration, createFunctionConfigurationCreator} from "../src/
 import {ArgumentConstraint} from "../src/argumentConstraint";
 
 describe("FunctionConfiguration", () => {
-	
+
 	describe("getName", () => {
 
 		it("must return name", () => {
@@ -159,7 +159,7 @@ describe("FunctionConfiguration", () => {
 		it("must return passed value", () => {
 			const configuration = new FunctionConfiguration<number>("test", []);
 
-			configuration.returns(1);
+			configuration.returns(() => 1);
 
 			expect(configuration.execute([])).to.be(1);
 		});
@@ -189,28 +189,37 @@ describe("FunctionConfiguration", () => {
 			configuration.returns(callback);
 
 			expect(() => configuration.returns(callback)).to.throwError(/Function test1 call is already configured/);
-			expect(() => configuration.throws(new Error("Test error"))).to.throwError(/Function test1 call is already configured/);
+			expect(() => configuration.throws(() => new Error("Test error"))).to.throwError(/Function test1 call is already configured/);
 		});
 
 	});
 
 	describe("throws", () => {
 
-		it("must throw on execute", () => {
+		it("must throw on execution", () => {
 			const configuration = new FunctionConfiguration<number[]>("test1", []);
 
-			configuration.throws(new Error("Test error"));
+			configuration.throws(() => new Error("Test error"));
 
 			expect(() => configuration.execute([])).to.throwError(/Test error/);
+		});
+
+		it("must receive args passed", () => {
+			const callback = (first:number, second:number, third:number) => new Error([first, second, third].join(""));
+			const configuration = new FunctionConfiguration<number[]>("test", []);
+
+			configuration.throws(callback);
+
+			expect(() => configuration.execute([1, 2, 3])).to.throwError(/123/);
 		});
 
 		it("must not allow multiple configurations", () => {
 			const configuration = new FunctionConfiguration<number[]>("test1", []);
 
-			configuration.throws(new Error("Test error"));
+			configuration.throws(() => new Error("Test error"));
 
-			expect(() => configuration.throws(new Error("Test error"))).to.throwError(/Function test1 call is already configured/);
-			expect(() => configuration.returns([])).to.throwError(/Function test1 call is already configured/);
+			expect(() => configuration.throws(() => new Error("Test error"))).to.throwError(/Function test1 call is already configured/);
+			expect(() => configuration.returns(() => [])).to.throwError(/Function test1 call is already configured/);
 		});
 
 	});
