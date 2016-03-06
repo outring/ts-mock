@@ -1,5 +1,5 @@
 import expect = require("expect.js");
-import {FunctionConfiguration} from "../src/functionConfiguration.ts";
+import {FunctionConfiguration, createFunctionConfigurationCreator} from "../src/functionConfiguration.ts";
 import {ArgumentConstraint} from "../src/argumentConstraint";
 
 describe("FunctionConfiguration", () => {
@@ -229,6 +229,20 @@ describe("FunctionConfiguration", () => {
 			expect(() => configuration.onCall(1)).to.throwError(/Function test1 call number is already configured/);
 		});
 
+	});
+
+});
+
+describe("createFunctionConfigurationCreator", () => {
+
+	it("returns creator", () => {
+		const creator = createFunctionConfigurationCreator("method");
+		const configuration = creator(1, 2, 3);
+
+		expect(configuration).to.be.a(FunctionConfiguration);
+		expect(configuration.getName()).to.be("method");
+		expect(configuration.isSuitable([1, 2, 3])).to.be(true);
+		expect(configuration.isSuitable([4, 5, 6])).to.be(false);
 	});
 
 });

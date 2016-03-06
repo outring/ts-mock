@@ -1,6 +1,6 @@
 import {IFunctionProxy, createFunctionProxy} from "./functionProxy";
 import {IMockConfigurator, IMockProxy} from "./mock";
-import {createFunctionConfiguratorCreator, IFunctionConfigurationCreator} from "./functionConfiguration";
+import {createFunctionConfigurationCreator, IFunctionConfigurationCreator} from "./functionConfiguration";
 
 interface IInstanceIndexer {
 	[key:string]:any;
@@ -12,7 +12,7 @@ export class InstanceMockConfigurator implements IMockConfigurator {
 		for (let key in instance) {
 			const member = instance[key];
 			if (typeof member === "function") {
-				this[key] = createFunctionConfiguratorCreator<any>(key);
+				this[key] = createFunctionConfigurationCreator<any>(key);
 			}
 		}
 	}
