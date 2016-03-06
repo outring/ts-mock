@@ -37,10 +37,11 @@ export class FunctionProxyDescriptor {
 	}
 
 	public execute(context:any, args:any[]):any {
+		const configurations = this._configurations[this._callNumber] || this._configurations[-1];
 		this._calls.push(new FunctionCall(this._callNumber, args));
+
 		this._callNumber++;
 
-		const configurations = this._configurations[this._callNumber] || this._configurations[-1];
 		if (configurations) {
 			const sortedConfigurations = configurations.sort((c1, c2) => c2.getSpecificity() - c1.getSpecificity());
 			for (let configuration of sortedConfigurations) {

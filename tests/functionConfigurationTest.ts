@@ -3,6 +3,16 @@ import {FunctionConfiguration, createFunctionConfigurationCreator} from "../src/
 import {ArgumentConstraint} from "../src/argumentConstraint";
 
 describe("FunctionConfiguration", () => {
+	
+	describe("getName", () => {
+
+		it("must return name", () => {
+			const configuration = new FunctionConfiguration<void>("test", []);
+
+			expect(configuration.getName()).to.be("test");
+		});
+
+	});
 
 	describe("getSpecificity", () => {
 

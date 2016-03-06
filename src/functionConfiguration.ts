@@ -31,12 +31,12 @@ export class FunctionConfiguration<TResult> implements IFunctionConfigurator<TRe
 		this._args = args;
 	}
 
-	public getCallNumber():number {
-		return this._callNumber;
-	}
-
 	public getName():string {
 		return this._name;
+	}
+
+	public getCallNumber():number {
+		return this._callNumber;
 	}
 
 	public getSpecificity():number {
