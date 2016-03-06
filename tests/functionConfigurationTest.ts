@@ -31,8 +31,8 @@ describe("FunctionConfiguration", () => {
 		});
 
 		it("must be equal to number of non-constraint or strict constraint args", () => {
-			const args1 = [new ArgumentConstraint(null, () => null), 1, 2, new ArgumentConstraint(null, () => null), 3, 4, new ArgumentConstraint(null, () => null)];
-			const args2 = [new ArgumentConstraint(null, () => null), 1, new ArgumentConstraint(null, () => null), 2, new ArgumentConstraint(null, () => null)];
+			const args1 = [new ArgumentConstraint(null, () => null), 1, 2, new ArgumentConstraint(null, () => null), 3, 4, new ArgumentConstraint(String)];
+			const args2 = [new ArgumentConstraint(null, () => null), 1, new ArgumentConstraint(null, () => null), 2, new ArgumentConstraint(String)];
 			const configuration1 = new FunctionConfiguration<void>("test", args1);
 			const configuration2 = new FunctionConfiguration<void>("test", args2);
 
