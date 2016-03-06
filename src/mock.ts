@@ -1,5 +1,5 @@
 import {FunctionCall} from "./functionCall";
-import {IFunctionConfigurator, FunctionConfiguration} from "./functionConfiguration";
+import {FunctionConfiguration, IFunctionConfigurator} from "./functionConfiguration";
 import {IFunctionProxy} from "./functionProxy";
 import {InstanceMockConfigurator, InstanceMockProxy} from "./instanceMock";
 

@@ -54,3 +54,12 @@ export class FunctionProxyDescriptor {
 	}
 
 }
+
+export function createFunctionProxy(name:string, fallback:Function):IFunctionProxy {
+	const descriptor = new FunctionProxyDescriptor(name, fallback);
+	const result = <IFunctionProxy>function (...args:any[]):any {
+		return descriptor.execute(this, args);
+	};
+	result.descriptor = descriptor;
+	return result;
+}

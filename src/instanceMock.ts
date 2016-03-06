@@ -1,28 +1,9 @@
-import {FunctionConfiguration} from "./functionConfiguration";
-import {FunctionProxyDescriptor} from "./functionProxy";
-import {IFunctionProxy, IMockConfigurator, IMockProxy} from "./mock";
+import {IFunctionProxy, createFunctionProxy} from "./functionProxy";
+import {IMockConfigurator, IMockProxy} from "./mock";
+import {createFunctionConfiguratorCreator, IFunctionConfigurationCreator} from "./functionConfiguration";
 
 interface IInstanceIndexer {
 	[key:string]:any;
-}
-
-interface IMethodConfigurator<TResult> {
-	(...args:any[]):FunctionConfiguration<TResult>;
-}
-
-function createMethodProxy(name:string, fallback:Function):IFunctionProxy {
-	const descriptor = new FunctionProxyDescriptor(name, fallback);
-	const methodProxy = <IFunctionProxy>function (...args:any[]):any {
-		return descriptor.execute(this, args);
-	};
-	methodProxy.descriptor = descriptor;
-	return methodProxy;
-}
-
-function createMethodConfigurator<TResult>(name:string):IMethodConfigurator<TResult> {
-	return function (...args:any[]):FunctionConfiguration<TResult> {
-		return new FunctionConfiguration<TResult>(name, args);
-	};
 }
 
 export class InstanceMockConfigurator implements IMockConfigurator {
@@ -31,12 +12,12 @@ export class InstanceMockConfigurator implements IMockConfigurator {
 		for (let key in instance) {
 			const member = instance[key];
 			if (typeof member === "function") {
-				this[key] = createMethodConfigurator<any>(key);
+				this[key] = createFunctionConfiguratorCreator<any>(key);
 			}
 		}
 	}
 
-	[name:string]:IMethodConfigurator<any>;
+	[name:string]:IFunctionConfigurationCreator<any>;
 
 }
 
@@ -46,7 +27,7 @@ export class InstanceMockProxy implements IMockProxy {
 		for (let key in instance) {
 			const member = instance[key];
 			if (typeof member === "function") {
-				this[key] = createMethodProxy(key, member);
+				this[key] = createFunctionProxy(key, member);
 			}
 		}
 	}

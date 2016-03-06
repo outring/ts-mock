@@ -88,3 +88,13 @@ export class FunctionConfiguration<TResult> implements IFunctionConfigurator<TRe
 	}
 
 }
+
+export interface IFunctionConfigurationCreator<TResult> {
+	(...args:any[]):FunctionConfiguration<TResult>;
+}
+
+export function createFunctionConfiguratorCreator<TResult>(name:string):IFunctionConfigurationCreator<TResult> {
+	return function (...args:any[]):FunctionConfiguration<TResult> {
+		return new FunctionConfiguration<TResult>(name, args);
+	};
+}
