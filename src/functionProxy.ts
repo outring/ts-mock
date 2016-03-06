@@ -1,14 +1,19 @@
-import {MethodCall} from "./methodCall";
-import {MethodConfiguration} from "./methodConfiguration";
+import {FunctionCall} from "./functionCall";
+import {FunctionConfiguration} from "./functionConfiguration";
 
-export class MethodProxyDescriptor {
+export interface IFunctionProxy {
+	(...args:any[]):any;
+	descriptor:FunctionProxyDescriptor;
+}
+
+export class FunctionProxyDescriptor {
 
 	private _name:string;
 	private _fallback:Function;
 
-	private _calls:MethodCall[] = [];
+	private _calls:FunctionCall[] = [];
 	private _callNumber = 0;
-	private _configurations:{[number:number]:MethodConfiguration<any>[]} = {};
+	private _configurations:{[number:number]:FunctionConfiguration<any>[]} = {};
 
 	constructor(name:string, fallback:Function) {
 		this._name = name;
@@ -19,11 +24,11 @@ export class MethodProxyDescriptor {
 		return this._name;
 	}
 
-	public getCalls():MethodCall[] {
+	public getCalls():FunctionCall[] {
 		return this._calls;
 	}
 
-	public addConfiguration(configuration:MethodConfiguration<any>):void {
+	public addConfiguration(configuration:FunctionConfiguration<any>):void {
 		if (!this._configurations[configuration.getCallNumber()]) {
 			this._configurations[configuration.getCallNumber()] = [];
 		}
@@ -32,7 +37,7 @@ export class MethodProxyDescriptor {
 	}
 
 	public execute(context:any, args:any[]):any {
-		this._calls.push(new MethodCall(this._callNumber, args));
+		this._calls.push(new FunctionCall(this._callNumber, args));
 		this._callNumber++;
 
 		const configurations = this._configurations[this._callNumber] || this._configurations[-1];

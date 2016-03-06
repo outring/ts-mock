@@ -1,28 +1,23 @@
-import {MethodCall} from "./methodCall";
-import {IMethodConfigurator, MethodConfiguration} from "./methodConfiguration";
-import {MethodProxyDescriptor} from "./methodProxyDescriptor";
+import {FunctionCall} from "./functionCall";
+import {IFunctionConfigurator, FunctionConfiguration} from "./functionConfiguration";
+import {IFunctionProxy} from "./functionProxy";
 import {InstanceMockConfigurator, InstanceMockProxy} from "./instanceMock";
 
-export interface IMethodProxy {
-	(...args:any[]):any;
-	descriptor:MethodProxyDescriptor;
-}
-
 export interface IMockConfigurator {
-	[name:string]:IMethodConfigurator<any>;
+	[name:string]:FunctionConfiguration<any>;
 }
 
 export interface IMockProxy {
-	[name:string]:IMethodProxy;
+	[name:string]:IFunctionProxy;
 }
 
 export interface IMethodConstraint {
-	verify(calls:MethodCall[]):boolean;
+	(calls:FunctionCall[]):boolean;
 }
 
 export interface IMock<T extends {}> {
 	getObject():T;
-	setup<TResult>(methodSetup:(instance:T) => TResult):IMethodConfigurator<TResult>;
+	setup<TResult>(methodSetup:(instance:T) => TResult):IFunctionConfigurator<TResult>;
 	verify<TResult>(methodVerification:(instance:T) => TResult, constraint:IMethodConstraint = null):void;
 }
 
@@ -40,18 +35,18 @@ export class Mock<T extends {}> implements IMock<T> {
 		return <any>this._proxy;
 	}
 
-	public setup<TResult>(methodSetup:(instance:T) => TResult):MethodConfiguration<TResult> {
-		const methodConfiguration = <MethodConfiguration<TResult>><any>methodSetup(<any>this._configurator);
+	public setup<TResult>(setup:(instance:T) => TResult):FunctionConfiguration<TResult> {
+		const methodConfiguration = <FunctionConfiguration<TResult>><any>setup(<any>this._configurator);
 		const methodProxy = this._proxy[methodConfiguration.getName()];
 		methodProxy.descriptor.addConfiguration(methodConfiguration);
 		return methodConfiguration;
 	}
 
-	public verify<TResult>(methodVerification:(instance:T) => TResult, constraint:IMethodConstraint = null):void {
-		const methodConfiguration = <MethodConfiguration<TResult>>methodVerification(<any>this._configurator);
+	public verify<TResult>(verify:(instance:T) => TResult, constraint:IMethodConstraint = null):void {
+		const methodConfiguration = <FunctionConfiguration<TResult>>verify(<any>this._configurator);
 		const methodProxy = this._proxy[methodConfiguration.getName()];
 		const suitableCalls = methodProxy.descriptor.getCalls().filter(c => methodConfiguration.isSuitable(c.getArgs()));
-		const verified = constraint !== null ? constraint.verify(suitableCalls) : suitableCalls.length > 0;
+		const verified = constraint !== null ? constraint(suitableCalls) : suitableCalls.length > 0;
 		if (!verified) {
 			throw new Error(`Expected method ${methodProxy.name} to be called`);
 		}

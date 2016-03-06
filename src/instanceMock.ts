@@ -1,18 +1,18 @@
-import {MethodConfiguration} from "./methodConfiguration";
-import {MethodProxyDescriptor} from "./methodProxyDescriptor";
-import {IMethodProxy, IMockConfigurator, IMockProxy} from "./mock";
+import {FunctionConfiguration} from "./functionConfiguration";
+import {FunctionProxyDescriptor} from "./functionProxy";
+import {IFunctionProxy, IMockConfigurator, IMockProxy} from "./mock";
 
 interface IInstanceIndexer {
 	[key:string]:any;
 }
 
 interface IMethodConfigurator<TResult> {
-	(...args:any[]):MethodConfiguration<TResult>;
+	(...args:any[]):FunctionConfiguration<TResult>;
 }
 
-function createMethodProxy(name:string, fallback:Function):IMethodProxy {
-	const descriptor = new MethodProxyDescriptor(name, fallback);
-	const methodProxy = <IMethodProxy>function (...args:any[]):any {
+function createMethodProxy(name:string, fallback:Function):IFunctionProxy {
+	const descriptor = new FunctionProxyDescriptor(name, fallback);
+	const methodProxy = <IFunctionProxy>function (...args:any[]):any {
 		return descriptor.execute(this, args);
 	};
 	methodProxy.descriptor = descriptor;
@@ -20,8 +20,8 @@ function createMethodProxy(name:string, fallback:Function):IMethodProxy {
 }
 
 function createMethodConfigurator<TResult>(name:string):IMethodConfigurator<TResult> {
-	return function (...args:any[]):MethodConfiguration<TResult> {
-		return new MethodConfiguration<TResult>(name, args);
+	return function (...args:any[]):FunctionConfiguration<TResult> {
+		return new FunctionConfiguration<TResult>(name, args);
 	};
 }
 
@@ -51,7 +51,7 @@ export class InstanceMockProxy implements IMockProxy {
 		}
 	}
 
-	[name:string]:IMethodProxy;
+	[name:string]:IFunctionProxy;
 
 }
 

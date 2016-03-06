@@ -1,4 +1,4 @@
-export class MethodCall {
+export class FunctionCall {
 
 	private _number:number;
 	private _args:any[];

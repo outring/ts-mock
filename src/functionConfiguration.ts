@@ -2,7 +2,7 @@ import {ArgumentConstraintBase} from "./argumentConstraint";
 
 const nonConfiguredCallNumber = -1;
 
-export interface IMethodConfiguration<TResult> {
+export interface IFunctionConfiguration<TResult> {
 	getName():string;
 	getCallNumber():number;
 	getSpecificity():number;
@@ -10,14 +10,14 @@ export interface IMethodConfiguration<TResult> {
 	execute(args:any[]):TResult;
 }
 
-export interface IMethodConfigurator<TResult> {
-	callback(callback:(...args:any[]) => void):IMethodConfigurator<TResult>;
-	returns(result:TResult):IMethodConfigurator<TResult>;
-	throws(error:any):IMethodConfigurator<TResult>;
-	onCall(number:number):IMethodConfigurator<TResult>;
+export interface IFunctionConfigurator<TResult> {
+	callback(callback:(...args:any[]) => void):IFunctionConfigurator<TResult>;
+	returns(result:TResult):IFunctionConfigurator<TResult>;
+	throws(error:any):IFunctionConfigurator<TResult>;
+	onCall(number:number):IFunctionConfigurator<TResult>;
 }
 
-export class MethodConfiguration<TResult> implements IMethodConfigurator<TResult>, IMethodConfiguration<TResult> {
+export class FunctionConfiguration<TResult> implements IFunctionConfigurator<TResult>, IFunctionConfiguration<TResult> {
 
 	private _name:string;
 	private _args:any[];
@@ -56,26 +56,26 @@ export class MethodConfiguration<TResult> implements IMethodConfigurator<TResult
 		return this._call ? this._call.apply(null, args) : undefined;
 	}
 
-	public callback(callback:(...args:any[]) => void):IMethodConfigurator<TResult> {
+	public callback(callback:(...args:any[]) => void):IFunctionConfigurator<TResult> {
 		this._callbacks.push(callback);
 		return this;
 	}
 
-	public returns(result:TResult|((...args:any[]) => TResult)):IMethodConfigurator<TResult> {
+	public returns(result:TResult|((...args:any[]) => TResult)):IFunctionConfigurator<TResult> {
 		this._ensureCallNotConfigured();
 		this._call = typeof result === "function" ? <(...args:any[]) => TResult>result : () => <TResult>result;
 		return this;
 	}
 
-	public throws(error:any):IMethodConfigurator<TResult> {
+	public throws(error:any):IFunctionConfigurator<TResult> {
 		this._ensureCallNotConfigured();
 		this._call = <() => TResult>(() => { throw error; });
 		return this;
 	}
 
-	public onCall(number:number):IMethodConfigurator<TResult> {
+	public onCall(number:number):IFunctionConfigurator<TResult> {
 		if (this._callNumber !== nonConfiguredCallNumber) {
-			throw new Error(`Method ${this.getName()} call number is already configured`);
+			throw new Error(`Function ${this.getName()} call number is already configured`);
 		}
 		this._callNumber = number;
 		return this;
@@ -83,7 +83,7 @@ export class MethodConfiguration<TResult> implements IMethodConfigurator<TResult
 
 	private _ensureCallNotConfigured() {
 		if (this._call) {
-			throw new Error(`Method ${this.getName()} call is already configured`);
+			throw new Error(`Function ${this.getName()} call is already configured`);
 		}
 	}
 
