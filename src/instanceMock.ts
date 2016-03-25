@@ -1,4 +1,4 @@
-import {IFunctionProxy, createFunctionProxy} from "./functionProxy";
+import {createFunctionProxy} from "./functionProxy";
 import {IMockConfigurator, IMockProxy} from "./mock";
 import {createFunctionConfigurationCreator, IFunctionConfigurationCreator} from "./functionConfiguration";
 
@@ -6,11 +6,12 @@ interface IInstanceIndexer {
 	[key:string]:any;
 }
 
-export class InstanceMockConfigurator implements IMockConfigurator {
+class InstanceMockConfigurator<T extends {}> implements IMockConfigurator {
 
-	constructor(instance:IInstanceIndexer) {
-		for (let key in instance) {
-			const member = instance[key];
+	constructor(instance:T) {
+		const instanceIndexer = <IInstanceIndexer>instance;
+		for (let key in instanceIndexer) {
+			const member = instanceIndexer[key];
 			if (typeof member === "function") {
 				this[key] = createFunctionConfigurationCreator<any>(key);
 			}
@@ -21,18 +22,18 @@ export class InstanceMockConfigurator implements IMockConfigurator {
 
 }
 
-export class InstanceMockProxy implements IMockProxy {
+export function createInstanceMockConfigurator<T extends {}>(instance:T):IMockConfigurator {
+	return new InstanceMockConfigurator(instance);
+}
 
-	constructor(instance:IInstanceIndexer) {
-		for (let key in instance) {
-			const member = instance[key];
-			if (typeof member === "function") {
-				this[key] = createFunctionProxy(key, member);
-			}
+export function createInstanceMockProxy<T extends {}>(instance:T):IMockProxy {
+	const instanceIndexer = <IInstanceIndexer>instance;
+	for (let key in instanceIndexer) {
+		const member = instanceIndexer[key];
+		if (typeof member === "function") {
+			instanceIndexer[key] = createFunctionProxy(key, member);
 		}
 	}
-
-	[name:string]:IFunctionProxy;
-
+	return instanceIndexer;
 }
 

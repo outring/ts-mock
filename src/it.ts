@@ -1,7 +1,7 @@
 import {ArgumentConstraint, ArrayArgumentConstraint, IArgumentConstraint} from "./argumentConstraint";
 
 interface IConstructor<T> {
-	new(...args:any[]):T;
+	new (...args:any[]):T;
 }
 
 export function isAny():any;
